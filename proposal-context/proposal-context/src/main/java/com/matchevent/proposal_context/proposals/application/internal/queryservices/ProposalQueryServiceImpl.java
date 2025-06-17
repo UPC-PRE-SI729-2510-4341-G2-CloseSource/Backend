@@ -2,6 +2,9 @@ package com.matchevent.proposal_context.proposals.application.internal.queryserv
 
 import com.matchevent.proposal_context.proposals.domain.model.aggregates.Proposal;
 import com.matchevent.proposal_context.proposals.domain.model.queries.*;
+import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ProducerId;
+import com.matchevent.proposal_context.proposals.domain.model.valueobjects.RequestId;
+import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ServiceId;
 import com.matchevent.proposal_context.proposals.domain.services.ProposalQueryService;
 import com.matchevent.proposal_context.proposals.infrastructure.persistence.jpa.repositories.ProposalRepository;
 import org.springframework.stereotype.Service;
@@ -44,18 +47,20 @@ public class ProposalQueryServiceImpl implements ProposalQueryService {
     }
 
     @Override
-    public Optional<Proposal> handle(GetProposalByProducerIdQuery query) {
-        return this.proposalRepository.findById(query.producerId());
+    public List<Proposal> handle(GetProposalByProducerIdQuery query) {
+        ProducerId producerId = new ProducerId(query.producerId());
+        return this.proposalRepository.findByProducerId(producerId);
     }
 
     @Override
-    public Optional<Proposal> handle(GetProposalByRequestIdQuery query) {
-        return this.proposalRepository.findById(query.requestId());
+    public List<Proposal> handle(GetProposalByRequestIdQuery query) {
+        RequestId requestId = new RequestId(query.requestId());
+        return this.proposalRepository.findByRequestId(requestId);
     }
 
     @Override
-    public Optional<Proposal> handle(GetProposalByServiceIdQuery query) {
-        return this.proposalRepository.findById(query.serviceId());
+    public List<Proposal> handle(GetProposalByServiceIdQuery query) {
+        ServiceId serviceId = new ServiceId(query.serviceId());
+        return this.proposalRepository.findByServiceId(serviceId);
     }
-
 }

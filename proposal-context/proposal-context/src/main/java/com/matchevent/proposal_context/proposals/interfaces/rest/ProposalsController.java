@@ -17,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,10 @@ public class ProposalsController {
         this.proposalQueryService = proposalQueryService;
     }
 
+    @Operation(
+            summary = "Crear nuevo Proposal",
+            description = "Registrar nuevo proposal en la base de datos."
+    )
     @PostMapping
     public ResponseEntity<ProposalResponseResource> createProposal(@RequestBody CreateProposalResource resource) {
         try {
@@ -58,6 +64,11 @@ public class ProposalsController {
         }
     }
 
+
+    @Operation(
+            summary = "Obtener todas las propuestas",
+            description = "Retorna una lista con todas las propuestas registradas en el sistema."
+    )
     @GetMapping
     public ResponseEntity<List<ProposalResponseResource>> getAllProposals() {
         List<Proposal> proposals = proposalQueryService.handle(new GetAllProposalsQuery());
@@ -67,6 +78,10 @@ public class ProposalsController {
         return ResponseEntity.ok(resources);
     }
 
+    @Operation(
+            summary = "Obtener propuesta por su ID",
+            description = "Retorna un solo JSON de respuesta (el valor del ID)."
+    )
     @GetMapping("/{proposalId}")
     public ResponseEntity<ProposalResponseResource> getProposalById(@PathVariable Long proposalId) {
         var optionalProposal = proposalQueryService.handle(new GetProposalByIdQuery(proposalId));
@@ -77,6 +92,10 @@ public class ProposalsController {
         return ResponseEntity.ok(resource);
     }
 
+    @Operation(
+            summary = "Actualizar Proposal por su ID",
+            description = "Colocar el ID del proposal para actualizar sus datos."
+    )
     @PutMapping("/{proposalId}")
     public ResponseEntity<ProposalResponseResource> updateProposal(@PathVariable Long proposalId, @RequestBody UpdateProposalResource resource) {
         try {
@@ -95,6 +114,10 @@ public class ProposalsController {
         }
     }
 
+    @Operation(
+            summary = "Borrar proposal por ID",
+            description = "Borrar proposal por el ID que se le coloque."
+    )
     @DeleteMapping("/{proposalId}")
     public ResponseEntity<Void> deleteProposal(@PathVariable Long proposalId) {
         try {
@@ -103,5 +126,64 @@ public class ProposalsController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+    @Operation(
+            summary = "Obtener Proposal por el RequestID",
+            description = "Retorna una lista de proposals con el mismo requestID (sujeto a cambios " +
+                    "cuando se implemente ACL)."
+    )
+    @GetMapping("/by-requestId")
+    public ResponseEntity<List<ProposalResponseResource>> getProposalsByRequestId(@RequestParam Long requestId) {
+        var proposals = proposalQueryService.handle(new GetProposalByRequestIdQuery(requestId));
+        var resources = proposals.stream()
+                .map(ProposalResponseResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resources);
+    }
+
+    @Operation(
+            summary = "Obtener Proposal por el ProducerID",
+            description = "Retorna una lista con todas las propuestas registradas con el ProducerID" +
+                    " (sujeto a cambios cuando se implemente ACL)."
+    )
+    @GetMapping("/by-producerId")
+    public ResponseEntity<List<ProposalResponseResource>> getProposalsByProducerId(@RequestParam Long producerId) {
+        var proposals = proposalQueryService.handle(new GetProposalByProducerIdQuery(producerId));
+        var resources = proposals.stream()
+                .map(ProposalResponseResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resources);
+    }
+
+    @Operation(
+            summary = "Obtener Proposal por el ServiceID",
+            description = "Retorna una lista con todas las propuestas registradas con el ServiceID" +
+                    " (sujeto a cambios cuando se implemente ACL)."
+    )
+    @GetMapping("/by-serviceId")
+    public ResponseEntity<List<ProposalResponseResource>> getProposalsByServiceId(@RequestParam Long serviceId) {
+        var proposals = proposalQueryService.handle(new GetProposalByServiceIdQuery(serviceId));
+        var resources = proposals.stream()
+                .map(ProposalResponseResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resources);
+    }
+
+
+    @GetMapping("/by-dates")
+    public ResponseEntity<List<ProposalResponseResource>> getProposalsByDateRange(
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+
+        var proposals = proposalQueryService.handle(
+                new GetProposalByDateRangeQuery(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate))
+        );
+
+        var resources = proposals.stream()
+                .map(ProposalResponseResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resources);
     }
 }

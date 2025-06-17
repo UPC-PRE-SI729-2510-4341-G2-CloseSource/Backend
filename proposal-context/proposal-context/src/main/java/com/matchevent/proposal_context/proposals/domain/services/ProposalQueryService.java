@@ -11,8 +11,12 @@ public interface ProposalQueryService {
     List<Proposal> handle(GetProposalByDateRangeQuery query);
     List<Proposal> handle(GetProposalByNameQuery query);
     List<Proposal> handle(GetProposalByStatusQuery query);
-    Optional<Proposal> handle(GetProposalByServiceIdQuery query);
     Optional<Proposal> handle(GetProposalByIdQuery query);
-    Optional<Proposal> handle(GetProposalByRequestIdQuery query);
-    Optional<Proposal> handle(GetProposalByProducerIdQuery query);
+    List<Proposal> handle(GetProposalByProducerIdQuery query);
+    List<Proposal> handle(GetProposalByRequestIdQuery query);
+    List<Proposal> handle(GetProposalByServiceIdQuery query);
+//    Optional<Proposal> handle(GetProposalByRequestIdQuery query);
+//    Optional<Proposal> handle(GetProposalByProducerIdQuery query);
+    //    Optional<Proposal> handle(GetProposalByServiceIdQuery query);
+
 }
