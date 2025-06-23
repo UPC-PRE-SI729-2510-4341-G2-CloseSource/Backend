@@ -157,21 +157,6 @@ public class ProposalsController {
         return ResponseEntity.ok(resources);
     }
 
-    @Operation(
-            summary = "Obtener Proposal por el ServiceID",
-            description = "Retorna una lista con todas las propuestas registradas con el ServiceID" +
-                    " (sujeto a cambios cuando se implemente ACL)."
-    )
-    @GetMapping("/by-serviceId")
-    public ResponseEntity<List<ProposalResponseResource>> getProposalsByServiceId(@RequestParam Long serviceId) {
-        var proposals = proposalQueryService.handle(new GetProposalByServiceIdQuery(serviceId));
-        var resources = proposals.stream()
-                .map(ProposalResponseResourceFromEntityAssembler::toResourceFromEntity)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(resources);
-    }
-
-
     @GetMapping("/by-dates")
     public ResponseEntity<List<ProposalResponseResource>> getProposalsByDateRange(
             @RequestParam String startDate,

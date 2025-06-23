@@ -9,7 +9,6 @@ public class UpdateProposalCommandFromResourceAssembler {
                 proposalId,
                 resource.requestId(),
                 resource.producerId(),
-                resource.serviceId(),
                 resource.name(),
                 resource.description(),
                 resource.offeredPrice(),

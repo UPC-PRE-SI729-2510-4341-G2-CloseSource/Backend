@@ -4,7 +4,6 @@ import com.matchevent.proposal_context.proposals.domain.model.aggregates.Proposa
 import com.matchevent.proposal_context.proposals.domain.model.queries.*;
 import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ProducerId;
 import com.matchevent.proposal_context.proposals.domain.model.valueobjects.RequestId;
-import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ServiceId;
 import com.matchevent.proposal_context.proposals.domain.services.ProposalQueryService;
 import com.matchevent.proposal_context.proposals.infrastructure.persistence.jpa.repositories.ProposalRepository;
 import org.springframework.stereotype.Service;
@@ -58,9 +57,4 @@ public class ProposalQueryServiceImpl implements ProposalQueryService {
         return this.proposalRepository.findByRequestId(requestId);
     }
 
-    @Override
-    public List<Proposal> handle(GetProposalByServiceIdQuery query) {
-        ServiceId serviceId = new ServiceId(query.serviceId());
-        return this.proposalRepository.findByServiceId(serviceId);
-    }
 }

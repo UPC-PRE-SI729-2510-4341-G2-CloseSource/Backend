@@ -10,7 +10,6 @@ public class ProposalResponseResourceFromEntityAssembler {
                 proposal.getProposalId(),
                 proposal.getRequestId().value(),
                 proposal.getProducerId().value(),
-                proposal.getServiceId().value(),
                 proposal.getName(),
                 proposal.getDescription(),
                 proposal.getOfferedPrice(),

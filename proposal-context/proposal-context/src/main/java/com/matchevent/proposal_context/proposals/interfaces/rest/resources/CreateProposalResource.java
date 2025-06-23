@@ -6,7 +6,6 @@ import com.matchevent.proposal_context.proposals.domain.model.valueobjects.Propo
 public record CreateProposalResource(
         Long requestId,
         Long producerId,
-        Long serviceId,
         String name,
         String description,
         Double offeredPrice,

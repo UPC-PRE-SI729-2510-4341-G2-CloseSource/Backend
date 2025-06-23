@@ -30,10 +30,6 @@ public class Proposal extends AuditableAbstractAggregateRoot<Proposal> {
     @AttributeOverride(name = "value", column = @Column(name = "producer_id", nullable = false))
     private ProducerId producerId;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "service_id", nullable = false))
-    private ServiceId serviceId;
-
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -50,12 +46,11 @@ public class Proposal extends AuditableAbstractAggregateRoot<Proposal> {
     @Column(nullable = false)
     private ProposalStatus proposalStatus;
 
-    public Proposal(ProposalId proposalId, RequestId requestId, ProducerId producerId,
-                    ServiceId serviceId, String name, String description, Double offeredPrice,
+    public Proposal(ProposalId proposalId, RequestId requestId, ProducerId producerId
+                   ,String name, String description, Double offeredPrice,
                     LocalDateTime submissionDate, ProposalStatus proposalStatus) {
         this.requestId = requestId;
         this.producerId = producerId;
-        this.serviceId = serviceId;
         this.name = name;
         this.description = description;
         this.offeredPrice = offeredPrice;
@@ -79,7 +74,6 @@ public class Proposal extends AuditableAbstractAggregateRoot<Proposal> {
     public Proposal(CreateProposalCommand command) {
         this.requestId = new RequestId(command.requestId());
         this.producerId = new ProducerId(command.producerId());
-        this.serviceId = new ServiceId(command.serviceId());
         this.name = command.name();
         this.description = command.description();
         this.offeredPrice = command.offeredPrice();
@@ -87,12 +81,11 @@ public class Proposal extends AuditableAbstractAggregateRoot<Proposal> {
         this.proposalStatus = ProposalStatus.PENDING;
     }
 
-    public void updateInformation(RequestId requestId, ProducerId producerId, ServiceId serviceId,
+    public void updateInformation(RequestId requestId, ProducerId producerId,
                                   String name, String description, Double price,
                                   LocalDateTime submissionDate, ProposalStatus status) {
         this.requestId = requestId;
         this.producerId = producerId;
-        this.serviceId = serviceId;
         this.name = name;
         this.description = description;
         this.offeredPrice = price;

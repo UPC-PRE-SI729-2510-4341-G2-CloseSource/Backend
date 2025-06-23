@@ -14,7 +14,6 @@ public interface ProposalQueryService {
     Optional<Proposal> handle(GetProposalByIdQuery query);
     List<Proposal> handle(GetProposalByProducerIdQuery query);
     List<Proposal> handle(GetProposalByRequestIdQuery query);
-    List<Proposal> handle(GetProposalByServiceIdQuery query);
 //    Optional<Proposal> handle(GetProposalByRequestIdQuery query);
 //    Optional<Proposal> handle(GetProposalByProducerIdQuery query);
     //    Optional<Proposal> handle(GetProposalByServiceIdQuery query);

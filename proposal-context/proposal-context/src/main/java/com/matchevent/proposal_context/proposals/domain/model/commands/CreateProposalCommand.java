@@ -7,7 +7,6 @@ import java.util.UUID;
 public record CreateProposalCommand(
         Long requestId,
         Long producerId,
-        Long serviceId,
         String name,
         String description,
         Double offeredPrice,

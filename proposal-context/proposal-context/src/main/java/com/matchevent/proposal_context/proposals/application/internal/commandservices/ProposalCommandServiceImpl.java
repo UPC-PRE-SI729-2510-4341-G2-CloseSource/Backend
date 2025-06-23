@@ -7,7 +7,6 @@ import com.matchevent.proposal_context.proposals.domain.model.commands.UpdatePro
 import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ProducerId;
 import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ProposalId;
 import com.matchevent.proposal_context.proposals.domain.model.valueobjects.RequestId;
-import com.matchevent.proposal_context.proposals.domain.model.valueobjects.ServiceId;
 import com.matchevent.proposal_context.proposals.domain.services.ProposalCommandService;
 import com.matchevent.proposal_context.proposals.infrastructure.persistence.jpa.repositories.ProposalRepository;
 import org.springframework.stereotype.Service;
@@ -57,7 +56,6 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
         proposalToUpdate.updateInformation(
                 new RequestId(command.requestId()),
                 new ProducerId(command.producerId()),
-                new ServiceId(command.serviceId()),
                 command.name(),
                 command.description(),
                 command.offeredPrice(),

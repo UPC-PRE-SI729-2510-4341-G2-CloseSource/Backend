@@ -8,7 +8,6 @@ public class CreateProposalCommandFromResourceAssembler {
         return new CreateProposalCommand(
                 resource.requestId(),
                 resource.producerId(),
-                resource.serviceId(),
                 resource.name(),
                 resource.description(),
                 resource.offeredPrice(),
