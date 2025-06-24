@@ -10,14 +10,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
 
-/**
- * Pequeño “value type” reutilizable con marcas de auditoría.
- * Se incrusta con @Embedded en cualquier entidad/agregado.
- */
 @Getter
 @Setter
 @NoArgsConstructor
-@Embeddable           // <── ¡no @MappedSuperclass!
+@Embeddable
 public class AuditableModel {
 
     @CreatedDate
